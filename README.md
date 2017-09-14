@@ -15,7 +15,7 @@
 
 # candlesticks
 
-<!-- description -->
+The thing to manage candlesticks.
 
 ## Install
 
@@ -26,7 +26,11 @@ $ npm install candlesticks
 ## Usage
 
 ```js
-import candlesticks from 'candlesticks'
+import {
+  Candlestick
+} from 'candlesticks'
+
+
 ```
 
 ## License
