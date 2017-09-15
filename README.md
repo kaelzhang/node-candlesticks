@@ -31,7 +31,7 @@ import {
 } from 'candlesticks'
 
 const cs = new Candlesticks({
-  
+  closed: 
 })
 ```
 
