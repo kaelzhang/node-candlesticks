@@ -1,4 +1,4 @@
-export cleanTime = time => time instanceof Date
+export const cleanTime = time => time instanceof Date
   ? time
   : new Date(time)
 

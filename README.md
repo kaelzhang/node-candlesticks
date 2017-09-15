@@ -27,10 +27,12 @@ $ npm install candlesticks
 
 ```js
 import {
-  Candlestick
+  Candlesticks
 } from 'candlesticks'
 
-
+const cs = new Candlesticks({
+  
+})
 ```
 
 ## License

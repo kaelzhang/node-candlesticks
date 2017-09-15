@@ -82,7 +82,7 @@ class AbstractCandlestick {
   }
 
   get isInvertedHammer () {
-    return return !this.isDoji
+    return !this.isDoji
     && this.hasLongUpperShadow
     && !this.hasLongLowerShadow
   }
