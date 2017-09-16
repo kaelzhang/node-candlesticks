@@ -1,3 +1,5 @@
+// @flow
+
 import {
   Candlestick,
   MutableCandlestick
@@ -17,7 +19,7 @@ export class Candlesticks {
   constructor ({
 
     // @type {function}
-    // Transforms item in the array to
+    // Transforms raw datum in the array to the format of
     // [open, high, low, close, volume, time]
     transfrom,
 
@@ -92,6 +94,13 @@ export class Candlesticks {
     this._length += candlesticks.length
   }
 
+  // @param {function(candlestick)} condition
+  search (condition) {
+
+  }
+
+  // Updates the list of candlesticks with raw data.
+  // Compare existing data, append new ones.
   // @param {Array} data
   update (data) {
     const stack = []
@@ -106,8 +115,9 @@ export class Candlesticks {
 
     const lastIndex = findLastIndex(data, datum => {
       const transformed = this._transform(datum)
-      const time = clean(getTime(transformed))
+      const time = cleanTime(getTime(transformed))
 
+      // Put newer data into a temporary stack
       if (time > lastClosedTime) {
         stack.push(datum)
         return

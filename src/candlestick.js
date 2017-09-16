@@ -22,11 +22,11 @@ class AbstractCandlestick {
     return diff(this.open, this.close)
   }
 
-  get isBlack () {
+  get isBearish () {
     return this.open > this.close
   }
 
-  get isWhite () {
+  get isBullish () {
     return this.open < this.close
   }
 
@@ -35,13 +35,13 @@ class AbstractCandlestick {
   }
 
   get upperShadow () {
-    return this.isBlack
+    return this.isBearish
       ? this.high - this.open
       : this.high - this.close
   }
 
   get lowerShadow () {
-    return this.isBlack
+    return this.isBearish
       ? this.close - this.low
       : this.open - this.low
   }
@@ -143,8 +143,8 @@ export class Candlestick extends AbstractCandlestick {
     define(this, 'volume', volume)
     define(this, 'time', cleanTime(time))
     define(this, 'body', this.body)
-    define(this, 'isBlack', this.isBlack)
-    define(this, 'isWhite', this.isWhite)
+    define(this, 'isBearish', this.isBearish)
+    define(this, 'isBullish', this.isBullish)
     define(this, 'isDoji', this.isDoji)
     define(this, 'upperShadow', this.upperShadow)
     define(this, 'lowerShadow', this.lowerShadow)
