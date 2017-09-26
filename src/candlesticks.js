@@ -21,7 +21,7 @@ export class Candlesticks {
     // @type {function}
     // Transforms raw datum in the array to the format of
     // [open, high, low, close, volume, time]
-    transfrom,
+    transform,
 
     // @type {function(time)}
     // To determine whether a datum which represents a candlestick is closed
@@ -37,6 +37,10 @@ export class Candlesticks {
 
   _getDataList (name) {
     return this._candlesticks.map(c => c[name])
+  }
+
+  get length () {
+    return this._candlesticks.length
   }
 
   get open () {
@@ -69,7 +73,7 @@ export class Candlesticks {
     this._length += candlesticks.length
   }
 
-  _n (n) {
+  _index (n) {
     return n < 0
       ? this._length + n
       : n
@@ -77,12 +81,12 @@ export class Candlesticks {
 
   // Returns `AbstractCandlestick`
   _get (n) {
-    return this._candlesticks[this._n(n)]
+    return this._candlesticks[this._index(n)]
   }
 
   // @param {AbstractCandlestick} candlestick
   _set (n, candlestick) {
-    this._candlesticks[this._n(n)] = candlestick
+    this._candlesticks[this._index(n)] = candlestick
   }
 
   _insert (n, ...candlesticks) {
@@ -90,39 +94,66 @@ export class Candlesticks {
       return
     }
 
-    this._candlesticks.splice(this._n(n), 0, ...candlesticks)
+    this._candlesticks.splice(this._index(n), 0, ...candlesticks)
     this._length += candlesticks.length
   }
 
   // @param {function(candlestick)} condition
-  search (condition) {
+  // search (condition) {
+  //
+  // }
 
+  _lastClosedTime () {
+    let isLastUnClosed = false
+    let lastClosedTime = 0
+    const length = this.length
+
+    if (!length) {
+      return {
+        lastClosedTime,
+        isLastUnClosed
+      }
+    }
+
+    const lastCandlestick = this._get(-1)
+    isLastUnClosed = lastCandlestick instanceof MutableCandlestick
+
+    const lastClosedCandlestick = isLastUnClosed
+      ? this._get(-2)
+      : lastCandlestick
+
+    if (lastClosedCandlestick) {
+      lastClosedTime = + lastClosedCandlestick.time
+    }
+
+    return {
+      lastClosedTime,
+      isLastUnClosed
+    }
   }
 
   // Updates the list of candlesticks with raw data.
   // Compare existing data, append new ones.
   // @param {Array} data
-  update (data) {
+  update (...data) {
     const stack = []
 
-    const lastCandlestick = this._get(-1)
-    const isLastUnClosed = lastCandlestick instanceof MutableCandlestick
-    const lastClosedCandlestick = isLastUnClosed
-      ? this._get(-2)
-      : lastCandlestick
-
-    const lastClosedTime = lastClosedCandlestick.time
+    const {
+      lastClosedTime,
+      isLastUnClosed
+    } = this._lastClosedTime()
 
     const lastIndex = findLastIndex(data, datum => {
       const transformed = this._transform(datum)
       const time = cleanTime(getTime(transformed))
 
       // Put newer data into a temporary stack
-      if (time > lastClosedTime) {
-        stack.push(datum)
+      if (+ time > lastClosedTime) {
+        stack.push(transformed)
         return
       }
 
+      // stop
       return true
     })
 

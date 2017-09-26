@@ -1,6 +1,5 @@
 import {
   equal,
-  greater,
   farGreater,
   farLesser
 } from './approximately'

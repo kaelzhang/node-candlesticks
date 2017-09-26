@@ -30,10 +30,32 @@ import {
   Candlesticks
 } from 'candlesticks'
 
-const cs = new Candlesticks({
-  closed: 
+const candlesticks = new Candlesticks({
+  closed (time) {
+    // ...
+  },
+  transform (datum: RawDatum): ArrayDatum {
+
+  }
 })
 ```
+
+### struct `ArrayDatum`
+
+```js
+[
+  open,   // Number
+  high,   // Number
+  low,    // Number
+  close,  // Number
+  volume, // Number
+  time    // Date
+]
+```
+
+### candlesticks.update(...data)
+
+- **data** `Array.<RawDatum>`
 
 ## License
 

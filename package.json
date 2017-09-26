@@ -7,6 +7,7 @@
   "scripts": {
     "build": "BABEL_ENV=babel babel src/ -d lib/",
     "test": "BABEL_ENV=ava nyc ava --verbose --timeout=10s",
+    "test-no-cov": "BABEL_ENV=ava ava --verbose --timeout=10s",
     "prepublish": "npm run build",
     "report-cov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
