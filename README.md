@@ -31,7 +31,7 @@ import {
 } from 'candlesticks'
 
 const candlesticks = new Candlesticks({
-  closed (time) {
+  closed (time: Date): Boolean {
     // ...
   },
   transform (datum: RawDatum): ArrayDatum {
