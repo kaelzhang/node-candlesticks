@@ -57,6 +57,20 @@ const candlesticks = new Candlesticks({
 
 - **data** `Array.<RawDatum>`
 
+### candlesticks.open
+
+Returns `Array.<Number>` open prices
+
+### candlesticks.high
+
+### candlesticks.low
+
+### candlesticks.close
+
+### candlesticks.volume
+
+### candlesticks.time
+
 ## License
 
 MIT

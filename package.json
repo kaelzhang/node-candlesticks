@@ -1,6 +1,6 @@
 {
   "name": "candlesticks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The thing to manage stock candlesticks",
   "main": "lib/index.js",
   "module": "src/index.js",

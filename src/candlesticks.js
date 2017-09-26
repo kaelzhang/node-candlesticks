@@ -63,6 +63,10 @@ export class Candlesticks {
     return this._getDataList('volume')
   }
 
+  get time () {
+    return this._getDataList('time')
+  }
+
   // Adds a candlestick to the end of the list
   _add (...candlesticks) {
     if (!candlesticks.length) {
