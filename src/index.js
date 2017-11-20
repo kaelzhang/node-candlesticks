@@ -1,6 +1,7 @@
 import {
   Candlestick,
-  MutableCandlestick
+  MutableCandlestick,
+  isCandlestick
 } from './candlestick'
 
 import {
@@ -9,6 +10,7 @@ import {
 
 
 export {
+  isCandlestick,
   Candlestick,
   MutableCandlestick,
   Candlesticks

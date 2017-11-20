@@ -2,7 +2,8 @@
 
 import {
   Candlestick,
-  MutableCandlestick
+  MutableCandlestick,
+  isMutableCandlestick
 } from './candlestick'
 
 import {
@@ -67,6 +68,10 @@ export class Candlesticks {
     return this._getDataList('time')
   }
 
+  forEach (iteratee) {
+    this._candlesticks.forEach(iteratee)
+  }
+
   // Adds a candlestick to the end of the list
   _add (...candlesticks) {
     if (!candlesticks.length) {
@@ -120,7 +125,7 @@ export class Candlesticks {
     }
 
     const lastCandlestick = this._get(-1)
-    isLastUnClosed = lastCandlestick instanceof MutableCandlestick
+    isLastUnClosed = isMutableCandlestick(lastCandlestick)
 
     const lastClosedCandlestick = isLastUnClosed
       ? this._get(-2)

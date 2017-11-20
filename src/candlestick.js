@@ -12,9 +12,18 @@ import {
 } from './utils'
 
 
+const KEY_CANDLESTICK = Symbol.for('candlesticks:candlestick')
+const KEY_MUTABLE_CANDLESTICK = Symbol.for('candlestick:mutable')
+
+export const isCandlestick = subject => !!subject[KEY_CANDLESTICK]
+export const isMutableCandlestick = subject =>
+  !!subject[KEY_MUTABLE_CANDLESTICK]
+
 class AbstractCandlestick {
   constructor (open) {
     define(this, 'open', open)
+
+    this[KEY_CANDLESTICK] = true
   }
 
   get body () {
@@ -117,6 +126,8 @@ export class MutableCandlestick extends AbstractCandlestick {
     // - dividend
     // - absoluteChange
     // - percentChange
+
+    this[KEY_MUTABLE_CANDLESTICK] = true
   }
 
   get _high () {
