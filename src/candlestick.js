@@ -112,6 +112,11 @@ export class MutableCandlestick extends AbstractCandlestick {
     this.close = close
     this.volume = volume
     this.time = time
+    // TODO:
+    // - split
+    // - dividend
+    // - absoluteChange
+    // - percentChange
   }
 
   get _high () {
