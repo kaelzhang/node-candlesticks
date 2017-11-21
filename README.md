@@ -55,6 +55,23 @@ const candlesticks = new Candlesticks({
 ]
 ```
 
+### struct `ObjectDatum`
+
+```js
+{
+  open,   // Number
+  high,   // Number
+  low,    // Number
+  close,  // Number
+  volume, // Number
+  time    // Date
+}
+```
+
+## class: Candlesticks(options)
+
+### Candlesticks.from(data: Array<ObjectDatum | ArrayDatum | Candlestick>)
+
 ### candlesticks.update(...data)
 
 - **data** `Array.<RawDatum>`
@@ -83,7 +100,9 @@ Returns `Array.<Number>`
 
 Returns `Array.<Date>`
 
-## class: Candlestick
+## class: Candlestick(...ArrayDatum)
+
+### Candlestick.from(datum: ObjectDatum | ArrayDatum | Candlestick)
 
 ## License
 

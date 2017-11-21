@@ -1,5 +1,3 @@
-// @flow
-
 import {
   Candlestick,
   MutableCandlestick,
@@ -23,7 +21,7 @@ export class Candlesticks {
     // @type {function}
     // Transforms raw datum in the array to the format of
     // [open, high, low, close, volume, time]
-    transform = transform,
+    transform: _transform,
 
     // @type {function(time)}
     // To determine whether a datum which represents a candlestick is closed
@@ -33,7 +31,7 @@ export class Candlesticks {
     this._candlesticks = []
     this._length = 0
 
-    this._transform = transform
+    this._transform = _transform || transform
     this._closed = closed
   }
 
@@ -69,8 +67,24 @@ export class Candlesticks {
     return this._getDataList('time')
   }
 
-  forEach (iteratee) {
-    this._candlesticks.forEach(iteratee)
+  // Clear all
+  clear () {
+    this._candlesticks.length = this._length = 0
+  }
+
+  // Iterate candlesticks
+  forEach (iteratee, reverse = false) {
+    const candlesticks = this._candlesticks
+
+    if (!reverse) {
+      candlesticks.forEach(iteratee)
+      return
+    }
+
+    let i = this._length
+    while (i > 0) {
+      iteratee.call(candlesticks, candlesticks[-- i], i, candlesticks)
+    }
   }
 
   // Adds a candlestick to the end of the list
@@ -190,4 +204,11 @@ export class Candlesticks {
       ? new Candlestick(...datum)
       : new MutableCandlestick(...datum)
   }
+}
+
+Candlesticks.from = (data, options = {}) => {
+  const candlesticks = new Candlesticks(options)
+  candlesticks.update(...data.map(transform))
+
+  return candlesticks
 }

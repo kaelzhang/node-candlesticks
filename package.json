@@ -1,6 +1,6 @@
 {
   "name": "candlesticks",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The thing to manage stock candlesticks",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -55,10 +55,10 @@
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-register": "^6.24.1",
-    "codecov": "^2.3.0",
+    "codecov": "^2.3.1",
     "data-source": "^1.2.0",
     "data-source-loader-qq": "^1.2.0",
-    "nyc": "^11.1.0"
+    "nyc": "^11.3.0"
   },
   "dependencies": {
     "approximately-equal": "^0.1.8",
