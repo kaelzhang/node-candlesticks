@@ -27,10 +27,12 @@ $ npm install candlesticks
 
 ```js
 import {
-  Candlesticks
+  Candlesticks,
+  Candlestick
 } from 'candlesticks'
 
 const candlesticks = new Candlesticks({
+  // Determine whether the candlestick is closed
   closed (time: Date): Boolean {
     // ...
   },
@@ -63,13 +65,25 @@ Returns `Array.<Number>` open prices
 
 ### candlesticks.high
 
+Returns `Array.<Number>`
+
 ### candlesticks.low
+
+Returns `Array.<Number>`
 
 ### candlesticks.close
 
+Returns `Array.<Number>`
+
 ### candlesticks.volume
 
+Returns `Array.<Number>`
+
 ### candlesticks.time
+
+Returns `Array.<Date>`
+
+## class: Candlestick
 
 ## License
 
