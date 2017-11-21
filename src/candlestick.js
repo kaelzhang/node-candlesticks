@@ -19,6 +19,15 @@ export const isCandlestick = subject => !!subject[KEY_CANDLESTICK]
 export const isMutableCandlestick = subject =>
   !!subject[KEY_MUTABLE_CANDLESTICK]
 
+export const transform = ({
+  open,
+  close,
+  high,
+  low,
+  volume,
+  time
+}) => [open, high, low, close, volume, time]
+
 class AbstractCandlestick {
   constructor (open) {
     define(this, 'open', open)
@@ -167,4 +176,9 @@ export class Candlestick extends AbstractCandlestick {
     this._high = Math.max(open, close)
     this._low = Math.min(open, close)
   }
+}
+
+
+Candlestick.from = object => {
+  return new Candlestick(...transform(object))
 }

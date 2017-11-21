@@ -28,15 +28,6 @@ const create = (past, offset = 0) => {
 
 test('basic', async t => {
   const candlesticks = new Candlesticks({
-    transform: ({
-      open,
-      close,
-      high,
-      low,
-      volume,
-      time
-    }) => [open, high, low, close, volume, time],
-
     closed: time => + time < Date.now()
   })
 

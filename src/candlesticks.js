@@ -3,7 +3,8 @@
 import {
   Candlestick,
   MutableCandlestick,
-  isMutableCandlestick
+  isMutableCandlestick,
+  transform
 } from './candlestick'
 
 import {
@@ -22,7 +23,7 @@ export class Candlesticks {
     // @type {function}
     // Transforms raw datum in the array to the format of
     // [open, high, low, close, volume, time]
-    transform,
+    transform = transform,
 
     // @type {function(time)}
     // To determine whether a datum which represents a candlestick is closed
