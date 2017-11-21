@@ -11,8 +11,12 @@ import {
 
 import findLastIndex from 'lodash.findlastindex'
 
+const KEY_CANDLESTICKS = Symbol.for('candlesticks:default')
+const isCandlesticks = subject => !!subject[KEY_CANDLESTICKS]
 
 const getTime = datum => datum[5]
+const noStop = () => false
+const happensPast = time => + time < Date.now()
 
 // An candlesticks manager with order
 export class Candlesticks {
@@ -21,18 +25,19 @@ export class Candlesticks {
     // @type {function}
     // Transforms raw datum in the array to the format of
     // [open, high, low, close, volume, time]
-    transform: _transform,
+    transform: _transform = transform,
 
     // @type {function(time)}
     // To determine whether a datum which represents a candlestick is closed
-    closed
-  }) {
+    closed = happensPast
+  } = {}) {
 
     this._candlesticks = []
     this._length = 0
 
-    this._transform = _transform || transform
+    this._transform = _transform
     this._closed = closed
+    this[KEY_CANDLESTICKS] = true
   }
 
   _getDataList (name) {
@@ -72,18 +77,21 @@ export class Candlesticks {
     this._candlesticks.length = this._length = 0
   }
 
-  // Iterate candlesticks
-  forEach (iteratee, reverse = false) {
-    const candlesticks = this._candlesticks
+  forEach (iteratee) {
+    this._candlesticks.forEach(iteratee)
+  }
 
-    if (!reverse) {
-      candlesticks.forEach(iteratee)
-      return
-    }
+  // Iterate candlesticks
+  lastForEach (iteratee, stopAfterWhat = noStop) {
+    const candlesticks = this._candlesticks
 
     let i = this._length
     while (i > 0) {
-      iteratee.call(candlesticks, candlesticks[-- i], i, candlesticks)
+      const candle = candlesticks[-- i]
+      iteratee.call(candlesticks, candle, i, candlesticks)
+      if (stopAfterWhat(candle, i)) {
+        break
+      }
     }
   }
 
@@ -207,6 +215,10 @@ export class Candlesticks {
 }
 
 Candlesticks.from = (data, options = {}) => {
+  if (isCandlesticks(data)) {
+    return data
+  }
+
   const candlesticks = new Candlesticks(options)
   candlesticks.update(...data.map(transform))
 

@@ -28,9 +28,7 @@ const create = (past, offset = 0) => {
 }
 
 test('basic: length', async t => {
-  const candlesticks = new Candlesticks({
-    closed: time => + time < Date.now()
-  })
+  const candlesticks = new Candlesticks
 
   function updateAndTest (data) {
     candlesticks.update(...data)
@@ -51,12 +49,12 @@ test('basic: length', async t => {
 
     let j = 0
 
-    candlesticks.forEach((c, i) => {
+    candlesticks.lastForEach((c, i) => {
       const d = data[data.length - 1 - j ++]
 
       t.is(c.open, d.open, 'reverse open')
       t.is(c.high, d.high, 'reverse high')
-    }, true)
+    })
   }
 
   const data1 = [
