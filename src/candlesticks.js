@@ -9,6 +9,8 @@ import {
   cleanTime
 } from './utils'
 
+import delegates from 'delegates'
+
 import findLastIndex from 'lodash.findlastindex'
 
 const KEY_CANDLESTICKS = Symbol.for('candlesticks:default')
@@ -33,8 +35,6 @@ export class Candlesticks {
   } = {}) {
 
     this._candlesticks = []
-    this._length = 0
-
     this._transform = _transform
     this._closed = closed
     this[KEY_CANDLESTICKS] = true
@@ -42,10 +42,6 @@ export class Candlesticks {
 
   _getDataList (name) {
     return this._candlesticks.map(c => c[name])
-  }
-
-  get length () {
-    return this._candlesticks.length
   }
 
   get open () {
@@ -74,18 +70,14 @@ export class Candlesticks {
 
   // Clear all
   clear () {
-    this._candlesticks.length = this._length = 0
-  }
-
-  forEach (iteratee) {
-    this._candlesticks.forEach(iteratee)
+    this._candlesticks.length = 0
   }
 
   // Iterate candlesticks
   lastForEach (iteratee, stopAfterWhat = noStop) {
     const candlesticks = this._candlesticks
 
-    let i = this._length
+    let i = this.length
     while (i > 0) {
       const candle = candlesticks[-- i]
       iteratee.call(candlesticks, candle, i, candlesticks)
@@ -95,19 +87,9 @@ export class Candlesticks {
     }
   }
 
-  // Adds a candlestick to the end of the list
-  _add (...candlesticks) {
-    if (!candlesticks.length) {
-      return
-    }
-
-    this._candlesticks.push(...candlesticks)
-    this._length += candlesticks.length
-  }
-
   _index (n) {
     return n < 0
-      ? this._length + n
+      ? this.length + n
       : n
   }
 
@@ -127,13 +109,7 @@ export class Candlesticks {
     }
 
     this._candlesticks.splice(this._index(n), 0, ...candlesticks)
-    this._length += candlesticks.length
   }
-
-  // @param {function(candlestick)} condition
-  // search (condition) {
-  //
-  // }
 
   _lastClosedTime () {
     let isLastUnClosed = false
@@ -200,7 +176,7 @@ export class Candlesticks {
     let datum
 
     while (datum = stack.pop()) {
-      this._add(this._create(datum))
+      this.push(this._create(datum))
     }
   }
 
@@ -224,3 +200,10 @@ Candlesticks.from = (data, options = {}) => {
 
   return candlesticks
 }
+
+
+delegates(Candlesticks.prototype, '_candlesticks')
+.method('forEach')
+.method('slice')
+.method('push')
+.getter('length')

@@ -2,7 +2,6 @@ export const cleanTime = time => time instanceof Date
   ? time
   : new Date(time)
 
-
 export const define = (host, name, value) => {
   Object.defineProperty(host, name, {
     value,
@@ -10,13 +9,10 @@ export const define = (host, name, value) => {
   })
 }
 
-
 export const lowerShadow = (open, low, close) =>
   Math.min(open, close) - low
 
-
 export const upperShadow = (open, high, close) =>
   high - Math.max(open, close)
-
 
 export const diff = (a, b) => Math.abs(a - b)
